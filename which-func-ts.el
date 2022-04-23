@@ -29,6 +29,15 @@
 ;; commentary
 
 ;;; Code:
+(require 'tsc)
+
+(defun which-func-ts--get-match-nodes (match-rule)
+  (ignore-errors
+    (let* ((query (tsc-make-query tree-sitter-language match-rule))
+           (root-node (tsc-root-node tree-sitter-tree))
+           (captures (mapcar #'cdr (tsc-query-captures query root-node #'tsc--buffer-substring-no-properties))))
+      (mapcar #'tsc-node-text captures)))
+  )
 
 (provide 'which-func-ts)
 
